@@ -1,7 +1,7 @@
 %define	name	dosemu
-%define	version 1.2.2
-%define	dosver	b9r5
-%define	release 2mdk
+%define	version 1.4.0
+%define	dosver	1.0
+%define	release %mkrel 1
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		%{name}
@@ -17,6 +17,7 @@ Url:		http://www.dosemu.org/
 Group:		Emulators
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	bison flex XFree86 XFree86-devel svgalib-devel
+BuildRequires:	bdftopcf slang-devel
 Exclusivearch:	%{ix86}
 
 %description
@@ -27,7 +28,7 @@ biz call a `DOS box'.
 
 %package -n	xdosemu
 Requires:	%{name} = %{version}-%{release} dosimage
-Summary:	A DOS emulator for the X Window System.
+Summary:	A DOS emulator for the X Window System
 Group:		Emulators
 
 %description -n xdosemu
@@ -39,7 +40,7 @@ like to do so with the convenience of graphics support and mouse
 capabilities.
 
 %package	freedos
-Summary:	A FreeDOS hdimage for dosemu, a DOS emulator, to use.
+Summary:	A FreeDOS hdimage for dosemu, a DOS emulator, to use
 Group:		Emulators
 Provides:	dosimage
 
@@ -62,10 +63,10 @@ with DOS.
 
 %prep
 %setup -q
+bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
 %build
-%configure2_5x	--with-slangdir=src/plugin/slang \
-		--with-fdtarball=%{_sourcedir}/dosemu-freedos-bin.tgz \
+%configure2_5x	--with-fdtarball=freedos.tgz \
 		--with-svgalib \
 		--with-x
 %make
@@ -83,7 +84,21 @@ mkdir -p $RPM_BUILD_ROOT%{_menudir}
 cat >$RPM_BUILD_ROOT%{_menudir}/xdosemu <<EOF
 ?package(xdosemu):command="%{_bindir}/xdosemu" needs="X11" icon="xdosemu.png" \
 section="More Applications/Emulators" title="DOS emulator" \
-longtitle="DOS emulator running under X"
+longtitle="DOS emulator running under X" xdg="true"
+EOF
+
+#xdg menu
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
+cat > $RPM_BUILD_ROOT%{_datadir}/applications/xdosemu.desktop <<EOF
+[Desktop Entry]
+Encoding=UTF-8
+Name=Xdosemu
+Comment=DOS emulator running under X
+Exec=%{_bindir}/x%{name}
+Icon=x%{name}
+Terminal=false
+Type=Application
+Categories=X-MandrivaLinux-MoreApplications-Emulators;Emulator;
 EOF
 
 rm -rf $RPM_BUILD_ROOT%{_docdir}
@@ -108,6 +123,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/mkfatimage16
 %{_bindir}/midid
 %{_bindir}/dosdebug
+%{_libdir}/dosemu/libplugin*.so
 %{_mandir}/man1/mkfatimage16.1*
 %{_mandir}/man1/dosdebug.1*
 %{_mandir}/man1/dosemu.1*
@@ -121,6 +137,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dosemu/Xfonts
 %config(noreplace) %{_sysconfdir}/dosemu.conf
 %config(noreplace) %{_sysconfdir}/drives/c
+%config(noreplace) %{_sysconfdir}/drives/d
 %config(noreplace) %{_sysconfdir}/dosemu.users
 %config(noreplace) %{_sysconfdir}/global.conf
 
@@ -133,10 +150,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_miconsdir}/xdosemu.png
 %{_liconsdir}/xdosemu.png
 %{_iconsdir}/xdosemu.png
+%{_datadir}/applications/xdosemu.desktop
 
 %files freedos
 %defattr(-,root,root,755)
 %{_datadir}/dosemu/freedos
-%{_datadir}/dosemu/dosemu-bin.tgz
-%{_datadir}/dosemu/dosemu-freedos-bin.tgz
+%{_datadir}/dosemu/drive_z
 
