@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0
 %define	dosver	1.0
-%define	release %mkrel 1
+%define	release %mkrel 2
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		%{name}
@@ -75,17 +75,13 @@ bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 rm -rf $RPM_BUILD_ROOT
 %{makeinstall_std}
 
-install -m644 %{SOURCE11} -D $RPM_BUILD_ROOT%{_miconsdir}/xdosemu.png
-install -m644 %{SOURCE12} -D $RPM_BUILD_ROOT%{_iconsdir}/xdosemu.png
-install -m644 %{SOURCE13} -D $RPM_BUILD_ROOT%{_liconsdir}/xdosemu.png
-
-# (fg) Menu entry for xdos
-mkdir -p $RPM_BUILD_ROOT%{_menudir}
-cat >$RPM_BUILD_ROOT%{_menudir}/xdosemu <<EOF
-?package(xdosemu):command="%{_bindir}/xdosemu" needs="X11" icon="xdosemu.png" \
-section="More Applications/Emulators" title="DOS emulator" \
-longtitle="DOS emulator running under X" xdg="true"
-EOF
+mkdir -p $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
+install -m644 %{SOURCE11} -D \
+	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/16x16/apps/x%{name}.png
+install -m644 %{SOURCE12} -D \
+	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/32x32/apps/x%{name}.png
+install -m644 %{SOURCE13} -D \
+	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/48x48/apps/x%{name}.png
 
 #xdg menu
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
@@ -104,11 +100,9 @@ EOF
 rm -rf $RPM_BUILD_ROOT%{_docdir}
 
 %post -n xdosemu
-# (fg) For the menu entry
 %{update_menus}
 
 %postun -n xdosemu
-# (fg) For the menu entry
 %{clean_menus}
 
 %clean
@@ -146,10 +140,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/xdosemu
 %{_mandir}/man1/xdosemu.1*
 %lang(ru) %{_mandir}/ru/man1/xdosemu.1*
-%{_menudir}/xdosemu
-%{_miconsdir}/xdosemu.png
-%{_liconsdir}/xdosemu.png
-%{_iconsdir}/xdosemu.png
+%{_iconsdir}/hicolor/16x16/apps/x%{name}.png
+%{_iconsdir}/hicolor/32x32/apps/x%{name}.png
+%{_iconsdir}/hicolor/48x48/apps/x%{name}.png
 %{_datadir}/applications/xdosemu.desktop
 
 %files freedos
