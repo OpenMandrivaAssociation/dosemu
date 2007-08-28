@@ -87,7 +87,6 @@ install -m644 %{SOURCE13} -D \
 mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
 cat > $RPM_BUILD_ROOT%{_datadir}/applications/xdosemu.desktop <<EOF
 [Desktop Entry]
-Encoding=UTF-8
 Name=Xdosemu
 Comment=DOS emulator running under X
 Exec=%{_bindir}/x%{name}
