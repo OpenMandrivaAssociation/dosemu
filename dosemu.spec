@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0
 %define	dosver	1.0
-%define	release %mkrel 2
+%define	release %mkrel 3
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		%{name}
@@ -49,12 +49,8 @@ Generally, the dosemu DOS emulator requires either that your system
 have some version of DOS available or that your system's partitions
 were formatted and installed with DOS. If your system does not meet
 either of the previous requirements, you can instead use the dosemu-
-freedos package, which contains an hdimage file which will be
-installed in the /var/lib/dosemu directory. The hdimage file is
-already bootable with FreeDOS.
-
-You will need to edit your /etc/dosemu.conf file to add the
-image to the list of disk 'drives' used by dosemu.
+freedos package, which contains required files which will be
+installed in '/usr/share/dosemu/freedos-1.0'
 
 Install dosemu-freedos if you are installing the dosemu package
 and you don't have a version of DOS available on your system,
@@ -72,20 +68,20 @@ bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %{makeinstall_std}
 
-mkdir -p $RPM_BUILD_ROOT%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
+mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 install -m644 %{SOURCE11} -D \
-	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/16x16/apps/x%{name}.png
+	%{buildroot}%{_iconsdir}/hicolor/16x16/apps/x%{name}.png
 install -m644 %{SOURCE12} -D \
-	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/32x32/apps/x%{name}.png
+	%{buildroot}%{_iconsdir}/hicolor/32x32/apps/x%{name}.png
 install -m644 %{SOURCE13} -D \
-	$RPM_BUILD_ROOT%{_iconsdir}/hicolor/48x48/apps/x%{name}.png
+	%{buildroot}%{_iconsdir}/hicolor/48x48/apps/x%{name}.png
 
 #xdg menu
-mkdir -p $RPM_BUILD_ROOT%{_datadir}/applications
-cat > $RPM_BUILD_ROOT%{_datadir}/applications/xdosemu.desktop <<EOF
+mkdir -p %{buildroot}%{_datadir}/applications
+cat > %{buildroot}%{_datadir}/applications/xdosemu.desktop <<EOF
 [Desktop Entry]
 Name=Xdosemu
 Comment=DOS emulator running under X
@@ -96,7 +92,11 @@ Type=Application
 Categories=X-MandrivaLinux-MoreApplications-Emulators;Emulator;
 EOF
 
-rm -rf $RPM_BUILD_ROOT%{_docdir}
+rm -rf %{buildroot}%{_docdir}
+
+# move freedos to another place to fix update issue (#34837)
+mv %{buildroot}%{_datadir}/%{name}/freedos \
+ %{buildroot}%{_datadir}/%{name}/freedos-%{dosver}
 
 %post -n xdosemu
 %{update_menus}
@@ -105,7 +105,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}
 %{clean_menus}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -146,6 +146,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files freedos
 %defattr(-,root,root,755)
-%{_datadir}/dosemu/freedos
+%{_datadir}/dosemu/freedos-%{dosver}
 %{_datadir}/dosemu/drive_z
 
