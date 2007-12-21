@@ -15,6 +15,7 @@ Source13:	xdosemu-48x48.png
 License:	GPL
 Url:		http://www.dosemu.org/
 Group:		Emulators
+Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	bison flex XFree86 X11-devel svgalib-devel
 BuildRequires:	bdftopcf slang-devel
 Exclusivearch:	%{ix86}
