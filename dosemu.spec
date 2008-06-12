@@ -98,11 +98,15 @@ rm -rf %{buildroot}%{_docdir}
 mv %{buildroot}%{_datadir}/%{name}/freedos \
  %{buildroot}%{_datadir}/%{name}/freedos-%{dosver}
 
+%if %mdkversion < 200900
 %post -n xdosemu
 %{update_menus}
+%endif
 
+%if %mdkversion < 200900
 %postun -n xdosemu
 %{clean_menus}
+%endif
 
 %clean
 rm -rf %{buildroot}
