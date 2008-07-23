@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0
 %define	dosver	1.0
-%define	release %mkrel 3
+%define	release %mkrel 5
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		%{name}
