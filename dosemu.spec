@@ -3,6 +3,9 @@
 %define	dosver	1.0
 %define	release %mkrel 1
 
+#disable for plugins
+%define _disable_ld_no_undefined 1
+
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		%{name}
 Version:	%{version}
