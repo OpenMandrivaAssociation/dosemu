@@ -1,22 +1,25 @@
 %define	name	dosemu
-%define	version 1.4.0
+%define	version 1.4.0.1
 %define	dosver	1.0
-%define	release %mkrel 5
+%define	release %mkrel 1
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	%{name}-1.4.0.tar.bz2
 Source1:	%{name}-freedos-%{dosver}-bin.tar.bz2
 Source11:	xdosemu-16x16.png
 Source12:	xdosemu-32x32.png
 Source13:	xdosemu-48x48.png
-License:	GPL
-Url:		http://www.dosemu.org/
+Patch0:         dosemu-1.4.0.1.diff
+Patch1: 	dosemu-1.4.0-dexeconfig-open-O_CREAT-3params.patch
+Patch2:		dosemu-1.4.0-fix-str-fmt.patch
+License:	GPLv2+
+Url:		http://dosemu.sourceforge.net/
 Group:		Emulators
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	bison flex XFree86 X11-devel svgalib-devel
+BuildRequires:	bison flex X11-devel svgalib-devel
 BuildRequires:	bdftopcf slang-devel
 Exclusivearch:	%{ix86}
 
@@ -58,7 +61,11 @@ and your system's partitions were not formatted and installed
 with DOS.
 
 %prep
-%setup -q
+%setup -q -n dosemu-1.4.0
+%patch0 -p1
+%patch1 -p1
+%patch2 -p0
+
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
 %build
