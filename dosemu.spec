@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0.1
 %define	dosver	1.0
-%define	release %mkrel 1
+%define	release %mkrel 2
 
 #disable for plugins
 %define _disable_ld_no_undefined 1
@@ -23,7 +23,7 @@ Url:		http://dosemu.sourceforge.net/
 Group:		Emulators
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	bison flex X11-devel svgalib-devel
-BuildRequires:	bdftopcf slang-devel
+BuildRequires:	bdftopcf slang-devel SDL-devel
 Exclusivearch:	%{ix86}
 
 %description
