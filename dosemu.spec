@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0.1
 %define	dosver	1.0
-%define	release %mkrel 2
+%define	release %mkrel 3
 
 #disable for plugins
 %define _disable_ld_no_undefined 1
