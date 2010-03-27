@@ -24,6 +24,7 @@ Group:		Emulators
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	bison flex X11-devel svgalib-devel
 BuildRequires:	bdftopcf slang-devel SDL-devel
+Requires:	dosimage
 Exclusivearch:	%{ix86}
 
 %description
