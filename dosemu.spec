@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0.1
 %define	dosver	1.0
-%define	release %mkrel 3
+%define	release %mkrel 4
 
 #disable for plugins
 %define _disable_ld_no_undefined 1
@@ -18,6 +18,14 @@ Source13:	xdosemu-48x48.png
 Patch0:         dosemu-1.4.0.1.diff
 Patch1: 	dosemu-1.4.0-dexeconfig-open-O_CREAT-3params.patch
 Patch2:		dosemu-1.4.0-fix-str-fmt.patch
+# This patch gives a warning when dosemu is run as a user and can't access LOWMEM
+# (and users can't by default, for security reasons)
+# Next dosemu release should work better, with this kind of message :
+#   EXPERIMENTAL: using non-zero memory base address 0x110000.
+#   You can use the better-tested zero based setup using
+#   sysctl -w vm.mmap_min_addr=0
+#   as root, or by changing the vm.mmap_min_addr setting in
+#   /etc/sysctl.conf or a file in /etc/sysctl.d/ to 0.
 Patch3:		dosemu-1.4.0.1-lowmem-as-user-pb.patch
 License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
