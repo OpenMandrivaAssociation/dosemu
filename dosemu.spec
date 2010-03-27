@@ -18,6 +18,7 @@ Source13:	xdosemu-48x48.png
 Patch0:         dosemu-1.4.0.1.diff
 Patch1: 	dosemu-1.4.0-dexeconfig-open-O_CREAT-3params.patch
 Patch2:		dosemu-1.4.0-fix-str-fmt.patch
+Patch3:		dosemu-1.4.0.1-lowmem-as-user-pb.patch
 License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
 Group:		Emulators
@@ -69,6 +70,7 @@ with DOS.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
+%patch3 -p0
 
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
