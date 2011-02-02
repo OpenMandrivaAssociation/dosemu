@@ -1,7 +1,7 @@
 %define	name	dosemu
 %define	version 1.4.0.1
 %define	dosver	1.0
-%define	release %mkrel 5
+%define	release %mkrel 6
 
 #disable for plugins
 %define _disable_ld_no_undefined 1
@@ -31,8 +31,15 @@ License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
 Group:		Emulators
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
-BuildRequires:	bison flex X11-devel svgalib-devel
-BuildRequires:	bdftopcf slang-devel SDL-devel
+BuildRequires:	bison flex
+BuildRequires:	libx11-devel
+BuildRequires:	libxext-devel
+BuildRequires:	libxxf86vm-devel
+BuildRequires:	svgalib-devel
+BuildRequires:	gpm-devel
+BuildRequires:	SDL-devel
+BuildRequires:	bdftopcf
+BuildRequires:	slang-devel
 Requires:	dosimage
 Exclusivearch:	%{ix86}
 
