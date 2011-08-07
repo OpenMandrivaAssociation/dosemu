@@ -41,7 +41,7 @@ BuildRequires:	SDL-devel
 BuildRequires:	bdftopcf
 BuildRequires:	slang-devel
 Requires:	dosimage
-Exclusivearch:	%{ix86}
+Exclusivearch:	%{ix86} x86_64
 
 %description
 DOSEMU is a user-level program which uses certain special features
