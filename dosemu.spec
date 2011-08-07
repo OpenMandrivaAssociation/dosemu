@@ -1,16 +1,14 @@
-%define	name	dosemu
-%define	version 1.4.0.1
 %define	dosver	1.0
-%define	release %mkrel 6
 
 #disable for plugins
 %define _disable_ld_no_undefined 1
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name:		dosemu
+Version:	1.4.0.1
+Release:	7
 Source0:	%{name}-1.4.0.tar.bz2
+%define	dosver	1.0
 Source1:	%{name}-freedos-%{dosver}-bin.tar.bz2
 Source11:	xdosemu-16x16.png
 Source12:	xdosemu-32x32.png
@@ -30,7 +28,6 @@ Patch3:		dosemu-1.4.0.1-lowmem-as-user-pb.patch
 License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
 Group:		Emulators
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildRequires:	bison flex
 BuildRequires:	libx11-devel
 BuildRequires:	libxext-devel
@@ -50,7 +47,7 @@ DR-DOS, DOS programs, and many DPMI applications in what we in the
 biz call a `DOS box'.
 
 %package -n	xdosemu
-Requires:	%{name} = %{version}-%{release} dosimage
+Requires:	%{name} = %{EVRD} dosimage
 Summary:	A DOS emulator for the X Window System
 Group:		Emulators
 
@@ -81,7 +78,7 @@ and your system's partitions were not formatted and installed
 with DOS.
 
 %prep
-%setup -q -n dosemu-1.4.0
+%setup -q -n %{name}-1.4.0
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
@@ -96,8 +93,7 @@ bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 %make
 
 %install
-rm -rf %{buildroot}
-%{makeinstall_std}
+%makeinstall_std
 
 mkdir -p %{buildroot}%{_iconsdir}/hicolor/{16x16,32x32,48x48}/apps
 install -m644 %{SOURCE11} -D \
@@ -126,21 +122,7 @@ rm -rf %{buildroot}%{_docdir}
 mv %{buildroot}%{_datadir}/%{name}/freedos \
  %{buildroot}%{_datadir}/%{name}/freedos-%{dosver}
 
-%if %mdkversion < 200900
-%post -n xdosemu
-%{update_menus}
-%endif
-
-%if %mdkversion < 200900
-%postun -n xdosemu
-%{clean_menus}
-%endif
-
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %doc doc/*
 %{_bindir}/dosemu.bin
 %{_bindir}/dosemu
@@ -167,7 +149,6 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/global.conf
 
 %files -n xdosemu
-%defattr(-,root,root,755)
 %{_bindir}/xdosemu
 %{_mandir}/man1/xdosemu.1*
 %lang(ru) %{_mandir}/ru/man1/xdosemu.1*
@@ -177,7 +158,6 @@ rm -rf %{buildroot}
 %{_datadir}/applications/xdosemu.desktop
 
 %files freedos
-%defattr(-,root,root,755)
 %{_datadir}/dosemu/freedos-%{dosver}
 %{_datadir}/dosemu/drive_z
 
