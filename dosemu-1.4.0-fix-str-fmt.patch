@@ -1,0 +1,103 @@
+--- src/arch/linux/async/debug.c.orig	2006-11-18 13:00:29.000000000 +0100
++++ src/arch/linux/async/debug.c	2009-02-28 22:04:55.000000000 +0100
+@@ -12,9 +12,9 @@
+ 
+ static void gdb_command(char *cmd)
+ {
+-  printf(cmd);
++  printf("%s", cmd);
+   fflush(stdout);
+-  fprintf(gdb_f, cmd);
++  fprintf("%s", gdb_f, cmd);
+   fflush(gdb_f);
+ }
+ 
+@@ -25,7 +25,7 @@
+   printf("Debug info:\n");
+   fflush(stdout);
+   asprintf(&buf, "gdb %s", dosemu_proc_self_exe);
+-  printf(buf);
++  printf("%s", buf);
+   putchar('\n');
+   fflush(stdout);
+   if (!(gdb_f = popen(buf, "w")))
+
+--- src/dosext/dpmi/dpmi.c.orig	2007-05-04 07:59:48.000000000 +0200
++++ src/dosext/dpmi/dpmi.c	2009-02-28 22:13:11.000000000 +0100
+@@ -875,7 +875,7 @@
+       error("%cS selector invalid: 0x%04X, type=%x np=%i\n",
+         letter, selector, Segments[selector >> 3].type, 
+ 	    Segments[selector >> 3].not_present);
+-      D_printf(DPMI_show_state(scp));
++      D_printf("%s", DPMI_show_state(scp));
+ #if 1
+       /* Some buggy programs load the arbitrary LDT or even GDT
+        * selectors after doing "verr" on them. We have to do the same. :( */
+@@ -905,7 +905,7 @@
+     if (in_dosemu) {
+       error("CS selector invalid: 0x%04X, type=%x np=%i\n",
+         _cs, Segments[_cs >> 3].type, Segments[_cs >> 3].not_present);
+-      D_printf(DPMI_show_state(scp));
++      D_printf("%s", DPMI_show_state(scp));
+     }
+     return 0;
+   }
+@@ -913,7 +913,7 @@
+     if (in_dosemu) {
+       error("IP outside CS limit: ip=%#x, cs=%#x, lim=%#x\n",
+         D_16_32(_eip), _cs, GetSegmentLimit(_cs));
+-      D_printf(DPMI_show_state(scp));
++      D_printf("%s", DPMI_show_state(scp));
+     }
+     return 0;
+   }
+@@ -940,7 +940,7 @@
+     if (in_dosemu) {
+       error("SS selector invalid: 0x%04X, type=%x np=%i\n",
+         _ss, Segments[_ss >> 3].type, Segments[_ss >> 3].not_present);
+-      D_printf(DPMI_show_state(scp));
++      D_printf("%s", DPMI_show_state(scp));
+     }
+     return 0;
+   }
+@@ -3319,7 +3319,7 @@
+       || debug_level('e')
+ #endif
+      )
+-    { D_printf(DPMI_show_state(scp)); }
++    { D_printf("%s", DPMI_show_state(scp)); }
+ #ifdef SHOWREGS
+   print_ldt();
+ #endif
+
+--- src/base/init/parser.y.in.orig	2007-05-04 07:59:48.000000000 +0200
++++ src/base/init/parser.y.in	2009-02-28 22:30:05.000000000 +0100
+@@ -2266,7 +2266,7 @@
+ static void write_to_syslog(char *message)
+ {
+   openlog("dosemu", LOG_PID, LOG_USER | LOG_NOTICE);
+-  syslog(LOG_PID | LOG_USER | LOG_NOTICE, message);
++  syslog(LOG_PID | LOG_USER | LOG_NOTICE, "%s", message);
+   closelog();
+ }
+ 
+--- src/emu.c.orig	2009-02-28 23:22:31.000000000 +0100
++++ src/emu.c	2009-02-28 23:27:33.000000000 +0100
+@@ -259,7 +259,7 @@
+   }
+ 
+   if (dosboot) {
+-    p_dos_str(text);
++    p_dos_str("%s", text);
+   } else {
+     fputs(text, stdout);
+   }
+@@ -268,7 +268,7 @@
+   if (prompt) {
+     int size = 0;
+     if (dosboot) {
+-      p_dos_str(text2);
++      p_dos_str("%s", text2);
+       size = com_biosread(buf, sizeof(buf)-2);
+     } else {
+       fputs(text2, stdout);
