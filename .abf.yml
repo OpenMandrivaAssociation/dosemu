@@ -1,6 +1,4 @@
+---
 sources:
-  "dosemu-1.4.0.tar.bz2:"	4dba528187367282953d5c16696e44cf8145fe10
-  "dosemu-freedos-1.0-bin.tar.bz2:"	b941e31e41bc8748f9107b93079ee1ad3a4d0389
-  "xdosemu-16x16.png:"	f14a3f311c01f667ad3790d7137fe4ebe17fb4e6
-  "xdosemu-32x32.png:"	ac0831b17dc25a302fa08ce66063a93d8161792f
-  "xdosemu-48x48.png:"	9fa41b33749667c1bdc1773bd735c3fd30ef184c
+  dosemu-1.4.0.7.tar.xz: 79f5037e781308c123d6dc9b17a97b440bfb21f7
+  dosemu-freedos-1.1-bin.tar.bz2: a427a20caefed35e321301b3224e35dc1ec9edac

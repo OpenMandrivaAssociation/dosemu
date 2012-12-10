@@ -1,42 +1,32 @@
-%define	dosver	1.0
+%define	dosver	1.1
 
 #disable for plugins
 %define _disable_ld_no_undefined 1
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		dosemu
-Version:	1.4.0.1
-Release:	7
-Source0:	%{name}-1.4.0.tar.bz2
-%define	dosver	1.0
+Version:	1.4.0.7
+Release:	1
+Group:		Emulators
+License:	GPLv2+
+Url:		http://dosemu.sourceforge.net/
+#git archive --format=tar --remote=git://dosemu.git.sourceforge.net/gitroot/dosemu/dosemu dosemu-1.4.0.7 | xz >dosemu-1.4.0.7.tar.xz
+Source0:	%{name}-%{version}.tar.xz
 Source1:	%{name}-freedos-%{dosver}-bin.tar.bz2
 Source11:	xdosemu-16x16.png
 Source12:	xdosemu-32x32.png
 Source13:	xdosemu-48x48.png
-Patch0:         dosemu-1.4.0.1.diff
-Patch1: 	dosemu-1.4.0-dexeconfig-open-O_CREAT-3params.patch
-Patch2:		dosemu-1.4.0-fix-str-fmt.patch
-# This patch gives a warning when dosemu is run as a user and can't access LOWMEM
-# (and users can't by default, for security reasons)
-# Next dosemu release should work better, with this kind of message :
-#   EXPERIMENTAL: using non-zero memory base address 0x110000.
-#   You can use the better-tested zero based setup using
-#   sysctl -w vm.mmap_min_addr=0
-#   as root, or by changing the vm.mmap_min_addr setting in
-#   /etc/sysctl.conf or a file in /etc/sysctl.d/ to 0.
-Patch3:		dosemu-1.4.0.1-lowmem-as-user-pb.patch
-License:	GPLv2+
-Url:		http://dosemu.sourceforge.net/
-Group:		Emulators
-BuildRequires:	bison flex
-BuildRequires:	libx11-devel
-BuildRequires:	libxext-devel
-BuildRequires:	libxxf86vm-devel
-BuildRequires:	svgalib-devel
-BuildRequires:	gpm-devel
-BuildRequires:	SDL-devel
+Patch0:		dosemu-1.4.0.7-flex.patch
 BuildRequires:	bdftopcf
-BuildRequires:	slang-devel
+BuildRequires:	bison
+BuildRequires:	flex
+BuildRequires:	pkgconfig(sdl)
+BuildRequires:	pkgconfig(slang)
+BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(xext)
+BuildRequires:	pkgconfig(xxf86vm)
+BuildRequires:	gpm-devel
+BuildRequires:	svgalib-devel
 Requires:	dosimage
 Exclusivearch:	%{ix86} x86_64
 
@@ -47,9 +37,10 @@ DR-DOS, DOS programs, and many DPMI applications in what we in the
 biz call a `DOS box'.
 
 %package -n	xdosemu
-Requires:	%{name} = %{EVRD} dosimage
 Summary:	A DOS emulator for the X Window System
 Group:		Emulators
+Requires:	%{name} = %{EVRD}
+Requires:	dosimage
 
 %description -n xdosemu
 Xdosemu is a version of the dosemu DOS emulator that runs with the X
@@ -78,11 +69,8 @@ and your system's partitions were not formatted and installed
 with DOS.
 
 %prep
-%setup -q -n %{name}-1.4.0
+%setup -c %{name} -q -n %{name}-%{version}
 %patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p0
 
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
@@ -122,6 +110,8 @@ rm -rf %{buildroot}%{_docdir}
 mv %{buildroot}%{_datadir}/%{name}/freedos \
  %{buildroot}%{_datadir}/%{name}/freedos-%{dosver}
 
+chmod 0755 %{buildroot}%{_libdir}/dosemu/libplugin*.so
+
 %files
 %doc doc/*
 %{_bindir}/dosemu.bin
@@ -135,6 +125,7 @@ mv %{buildroot}%{_datadir}/%{name}/freedos \
 %{_mandir}/man1/dosdebug.1*
 %{_mandir}/man1/dosemu.1*
 %{_mandir}/man1/dosemu.bin.1*
+%{_mandir}/man1/midid.1.*
 %lang(ru) %{_mandir}/ru/man1/mkfatimage16.1*
 %lang(ru) %{_mandir}/ru/man1/dosdebug.1*
 %lang(ru) %{_mandir}/ru/man1/dosemu.1*
@@ -160,4 +151,5 @@ mv %{buildroot}%{_datadir}/%{name}/freedos \
 %files freedos
 %{_datadir}/dosemu/freedos-%{dosver}
 %{_datadir}/dosemu/drive_z
+
 
