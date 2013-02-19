@@ -5,7 +5,7 @@
 
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		dosemu
-Version:	1.4.0.7
+Version:	1.4.0.8
 Release:	1
 Group:		Emulators
 License:	GPLv2+
@@ -16,10 +16,11 @@ Source1:	%{name}-freedos-%{dosver}-bin.tar.bz2
 Source11:	xdosemu-16x16.png
 Source12:	xdosemu-32x32.png
 Source13:	xdosemu-48x48.png
-Patch0:		dosemu-1.4.0.7-flex.patch
+Patch0:		dosemu-1.4.0.8-parallel-build.patch
 BuildRequires:	bdftopcf
 BuildRequires:	bison
 BuildRequires:	flex
+BuildRequires:	mkfontdir
 BuildRequires:	pkgconfig(sdl)
 BuildRequires:	pkgconfig(slang)
 BuildRequires:	pkgconfig(x11)

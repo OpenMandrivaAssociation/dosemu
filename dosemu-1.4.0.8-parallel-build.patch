@@ -1,0 +1,12 @@
+diff -up dosemu-1.4.0.8/src/arch/linux/Makefile.main.confpath_h dosemu-1.4.0.8/src/arch/linux/Makefile.main
+--- dosemu-1.4.0.8/src/arch/linux/Makefile.main.confpath_h	2012-12-22 20:57:21.000000000 +0100
++++ dosemu-1.4.0.8/src/arch/linux/Makefile.main	2013-01-22 22:59:12.518379830 +0100
+@@ -53,6 +53,8 @@ DOCS= ../man
+ default: version include/version.h include/confpath.h ../dosemu.spec doslib \
+ 	../etc/xtermdos ../etc/xinstallvgafont ../etc/vga10x24.pcf.gz
+ 
++$(LIBSUBDIRS): include/confpath.h include/version.h
++
+ ../etc/xtermdos:	$(REALTOPDIR)/etc/xtermdos.sh
+ 	@echo "#!/bin/sh" > ../etc/xtermdos
+ 	@echo >> ../etc/xtermdos
