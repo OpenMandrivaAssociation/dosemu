@@ -6,7 +6,7 @@
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		dosemu
 Version:	1.4.0.8
-Release:	2
+Release:	3
 Group:		Emulators
 License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
@@ -76,7 +76,7 @@ with DOS.
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
 %build
-%configure2_5x	--with-fdtarball=freedos.tgz \
+%configure	--with-fdtarball=freedos.tgz \
 		--with-svgalib \
 		--with-x
 %make
