@@ -76,14 +76,10 @@ with DOS.
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
 %build
-<<<<<<< HEAD
-%configure2_5x	--with-fdtarball=freedos.tgz \
-=======
 # bfd requires to build the com/sys files correctly
 export LDFLAGS="$LDFLAGS -fuse-ld=bfd"
 
-%configure	--with-fdtarball=freedos.tgz \
->>>>>>> 7156e4e... Use bfd to link, avoids crash
+%configure2_5x	--with-fdtarball=freedos.tgz \
 		--with-svgalib \
 		--with-x
 %make
