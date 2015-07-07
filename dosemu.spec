@@ -6,7 +6,7 @@
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		dosemu
 Version:	1.4.0.8
-Release:	1.1
+Release:	1.2
 Group:		Emulators
 License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
@@ -71,12 +71,19 @@ with DOS.
 
 %prep
 %setup -c %{name} -q -n %{name}-%{version}
-%patch0 -p1
+%apply_patches
 
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
 %build
+<<<<<<< HEAD
 %configure2_5x	--with-fdtarball=freedos.tgz \
+=======
+# bfd requires to build the com/sys files correctly
+export LDFLAGS="$LDFLAGS -fuse-ld=bfd"
+
+%configure	--with-fdtarball=freedos.tgz \
+>>>>>>> 7156e4e... Use bfd to link, avoids crash
 		--with-svgalib \
 		--with-x
 %make
