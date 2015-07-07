@@ -6,7 +6,7 @@
 Summary:	DOSEMU stands for DOS Emulation, and enables Linux to run DOS programs
 Name:		dosemu
 Version:	1.4.0.8
-Release:	1
+Release:	1.1
 Group:		Emulators
 License:	GPLv2+
 Url:		http://dosemu.sourceforge.net/
