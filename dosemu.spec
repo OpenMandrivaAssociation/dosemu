@@ -71,7 +71,7 @@ with DOS.
 
 %prep
 %setup -c %{name} -q -n %{name}-%{version}
-%apply_patches
+%autopatch -p1
 
 bunzip2 -c %{SOURCE1} | gzip -c > freedos.tgz
 
