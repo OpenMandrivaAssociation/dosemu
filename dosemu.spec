@@ -9,7 +9,7 @@ Version:	1.4.0.8
 Release:	4
 Group:		Emulators
 License:	GPLv2+
-Url:		http://dosemu.sourceforge.net/
+Url:		https://dosemu.sourceforge.net/
 #git archive --format=tar --remote=git://dosemu.git.sourceforge.net/gitroot/dosemu/dosemu dosemu-1.4.0.7 | xz >dosemu-1.4.0.7.tar.xz
 Source0:	%{name}-%{version}.tar.xz
 Source1:	%{name}-freedos-%{dosver}-bin.tar.bz2
