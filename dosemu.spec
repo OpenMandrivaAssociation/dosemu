@@ -17,6 +17,11 @@ Source11:	xdosemu-16x16.png
 Source12:	xdosemu-32x32.png
 Source13:	xdosemu-48x48.png
 Patch0:		dosemu-1.4.0.8-parallel-build.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bdftopcf
 BuildRequires:	bison
 BuildRequires:	flex
